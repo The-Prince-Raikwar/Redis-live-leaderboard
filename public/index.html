@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080b12" />
+  <title>Live Leaderboard | Redis</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">R</div>
+        <span>REDIS<span class="brand-light">BOARD</span></span>
+      </div>
+
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        <span id="connectionStatus">Connecting</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">REAL-TIME RANKINGS</p>
+      <h1>Every point<br />counts<span class="accent">.</span></h1>
+      <p class="subtitle">
+        Compete, climb the rankings, and take the top spot.
+        Every score update is delivered live.
+      </p>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-label">PLAYERS IN TOP 10</span>
+        <strong id="playerCount">0</strong>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">TOP PLAYER</span>
+        <strong id="topPlayer">—</strong>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">HIGHEST SCORE</span>
+        <strong id="highestScore">0</strong>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel leaderboard-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">THE COMPETITION</p>
+            <h2>Leaderboard</h2>
+          </div>
+          <span class="top-label">TOP 10</span>
+        </div>
+
+        <div class="column-labels">
+          <span>RANK / PLAYER</span>
+          <span>SCORE</span>
+        </div>
+
+        <div id="leaderboard" aria-live="polite">
+          <p class="empty-state">Loading leaderboard...</p>
+        </div>
+
+        <p class="footnote">
+          Rankings are powered by Redis Sorted Sets.
+        </p>
+      </article>
+
+      <aside class="panel action-panel">
+        <p class="eyebrow">MAKE YOUR MOVE</p>
+        <h2>Score points</h2>
+        <p class="form-description">
+          Add a player or award points to an existing player.
+        </p>
+
+        <form id="scoreForm">
+          <label for="playerName">Player name</label>
+          <input
+            id="playerName"
+            name="name"
+            type="text"
+            placeholder="e.g. Prince"
+            maxlength="30"
+            required
+          />
+
+          <label for="points">Points to award</label>
+          <input
+            id="points"
+            name="points"
+            type="number"
+            min="1"
+            max="1000"
+            step="1"
+            value="10"
+            required
+          />
+
+          <button id="submitButton" type="submit">
+            Award points <span>↗</span>
+          </button>
+
+          <p id="formMessage" class="form-message" role="status"></p>
+        </form>
+
+        <div class="info-box">
+          <span class="info-icon">↗</span>
+          <div>
+            <strong>Live updates</strong>
+            <p>All connected tabs receive ranking changes automatically.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      Built with Redis · Node.js · Express · Socket.IO
+    </footer>
+  </main>
+</body>
+</html>
